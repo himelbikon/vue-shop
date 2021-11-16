@@ -4,20 +4,21 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from .hb_django import JWTAuthentication, generate_jwt, printer
+from users.models import User
 
 
 class Login(APIView):
     def post(self, request):
-        username = request.data['username']
+        email = request.data['email']
         password = request.data['password']
 
-        user = User.objects.filter(username=username).first()
+        user = User.objects.filter(email=email).first()
 
         if user is None:
-            raise exceptions.AuthenticationFailed('User not found!')
+            raise AuthenticationFailed('User not found!')
 
         if not user.check_password(password):
-            raise exceptions.AuthenticationFailed('Incorrect Password!')
+            raise AuthenticationFailed('Incorrect Password!')
 
         token = generate_jwt(user.id)
 
@@ -45,6 +46,12 @@ class Profile(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        users = User.objects.all()
-        serializer = UserSerializer(users, many=True)
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)

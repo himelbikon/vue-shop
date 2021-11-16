@@ -22,6 +22,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Yuji+Syuku&display=swap");
 :root {
   --dbg: #3cd3ad;
+  --hov-col: #0d6efd;
 }
 
 * {

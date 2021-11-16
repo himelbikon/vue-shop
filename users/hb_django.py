@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth.models import User
+from users.models import User
 
 
 class JWTAuthentication(BaseAuthentication):
@@ -29,7 +29,6 @@ def generate_jwt(id):
         'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
         'iat': datetime.datetime.utcnow()
     }
-
     return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
 

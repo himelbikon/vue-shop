@@ -20,27 +20,26 @@
               <i class="far fa-window-close"></i>
             </button>
           </li>
-          <li class="p-3"><a href="#"> Home </a></li>
+          <li class="p-3">
+            <router-link :to="{ name: 'home' }"> Home </router-link>
+          </li>
           <li class="p-3">
             <router-link :to="{ name: 'about' }"> About us </router-link>
           </li>
-          <li class="p-3"><a href="#"> Contact </a></li>
-          <li class="p-3"><a href="#"> Dashboard </a></li>
-          <li class="p-3">
-            Services
+          <li class="p-3" v-if="$store.state.isAuthenticated">
+            Name
             <div class="sub-menu-1 text-center my-2 px-2 py-3 shadow">
               <ul class="ls-none m-0 p-0">
-                <li class=""><a href="#">category</a></li>
+                <li class=""><a href="#">Profile</a></li>
                 <hr />
-                <li class=""><a href="#">category most</a></li>
-                <hr />
-                <li class=""><a href="#"> category</a></li>
+                <li class=""><a href="#">Logout</a></li>
               </ul>
             </div>
           </li>
-          <li class="p-3"><a href="#"> Login </a></li>
-          <li class="p-3"><a href="#"> Logout </a></li>
           <li class="p-3"><a href="#"> Contact </a></li>
+          <li class="p-3" v-if="!$store.state.isAuthenticated">
+            <router-link :to="{ name: 'login' }"> Login </router-link>
+          </li>
         </ul>
       </div>
 
@@ -82,8 +81,9 @@ a {
   text-decoration: none;
 }
 
-nav a:hover {
-  color: #0d6efd;
+nav a:hover,
+.main-menu li:hover {
+  color: var(--hov-col);
 }
 
 .ls-none {
@@ -94,6 +94,10 @@ nav a:hover {
   display: none;
   position: absolute;
   background: var(--dbg);
+}
+
+.sub-menu-1 li {
+  min-width: 100px;
 }
 
 .main-menu li:hover .sub-menu-1,
