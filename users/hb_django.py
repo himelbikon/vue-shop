@@ -15,7 +15,8 @@ class JWTAuthentication(BaseAuthentication):
         try:
             payload = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=['HS256'])
-        except:
+        except Exception as e:
+            printer('Can not Authenticate:', e)
             raise AuthenticationFailed('unauthenticated!')
 
         user = User.objects.get(pk=payload['user_id'])
@@ -23,18 +24,18 @@ class JWTAuthentication(BaseAuthentication):
 
 
 def generate_jwt(id):
-	payload = {
-            'user_id': id,
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
-            'iat': datetime.datetime.utcnow()
-        }
+    payload = {
+        'user_id': id,
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
+        'iat': datetime.datetime.utcnow()
+    }
 
-	return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+    return jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
 
 
 def printer(x):
-	x = str(x)
-	sep = '----------------'
-	print(sep)
-	print(x)
-	print(sep)
+    x = str(x)
+    sep = '----------------'
+    print(sep)
+    print(x)
+    print(sep)

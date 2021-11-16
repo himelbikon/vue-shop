@@ -40,11 +40,11 @@ class Logout(APIView):
         return response
 
 
-class Users(APIView):
-	authentication_classes = [JWTAuthentication]
-	permission_classes = [IsAuthenticated]
+class Profile(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
-	def get(self, request):
-		users = User.objects.all()
-		serializer = UserSerializer(users, many=True)
-		return Response(serializer.data)
+    def get(self, request):
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return Response(serializer.data)
