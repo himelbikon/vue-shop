@@ -32,7 +32,14 @@
               <ul class="ls-none m-0 p-0">
                 <li class=""><a href="#">Profile</a></li>
                 <hr />
-                <li class=""><a href="#">Logout</a></li>
+                <li class="">
+                  <button
+                    class="btn text-white btn-nav"
+                    v-on:click="logoutHandler"
+                  >
+                    Logout
+                  </button>
+                </li>
               </ul>
             </div>
           </li>
@@ -51,6 +58,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Header",
   data() {
@@ -62,13 +71,24 @@ export default {
   mounted() {},
   methods: {
     menuHandler() {
-      console.log(this.menuOpen);
       this.menuOpen = !this.menuOpen;
       if (this.menuOpen) {
         this.menuRight = "-12px";
       } else {
         this.menuRight = "-390px";
       }
+    },
+    logoutHandler() {
+      axios
+        .post("/api/logout")
+        .then((response) => {
+          console.log(response.data);
+          this.$store.state.isAuthenticated = false;
+          this.$store.state.authCheck = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
@@ -84,6 +104,10 @@ a {
 nav a:hover,
 .main-menu li:hover {
   color: var(--hov-col);
+}
+
+.btn-nav:hover {
+  background: var(--hov-col);
 }
 
 .ls-none {
