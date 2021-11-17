@@ -1,16 +1,17 @@
 <template>
   <div class="home-page">
-    <button class="btn btn-success">Home</button>
-
-    <h2>
-      {{ this.$store.state.authCheck }} {{ this.$store.state.isAuthenticated }}
-    </h2>
+    <HeadBanner />
   </div>
 </template>
 
 <script>
+import HeadBanner from "@/components/HeadBanner";
+
 export default {
   name: "home",
   mounted() {},
+  components: {
+    HeadBanner,
+  },
 };
 </script>

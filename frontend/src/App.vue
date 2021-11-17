@@ -8,12 +8,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 import Header from "@/components/Header";
 
 export default {
   name: "App",
   components: {
     Header,
+  },
+  mounted() {
+    if (!this.$store.state.token) {
+      console.log("check auth");
+      this.$store.commit("initializeStore");
+      this.getProfile();
+    }
+  },
+  methods: {
+    getProfile() {
+      axios
+        .get("/api/profile")
+        .then((response) => {
+          this.$store.state.user = response.data.email.split("@")[0];
+        })
+        .catch(() => {
+          this.$store.commit("logginOut");
+        });
+    },
   },
 };
 </script>
@@ -48,5 +69,11 @@ a:hover {
 
 main {
   min-height: 80vh;
+}
+
+@media (max-width: 992px) {
+  .non-mobile {
+    display: none;
+  }
 }
 </style>

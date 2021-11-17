@@ -26,11 +26,13 @@
           <li class="p-3">
             <router-link :to="{ name: 'about' }"> About us </router-link>
           </li>
-          <li class="p-3" v-if="$store.state.isAuthenticated">
-            Name
+          <li class="p-3" v-if="$store.state.token">
+            User
             <div class="sub-menu-1 text-center my-2 px-2 py-3 shadow">
               <ul class="ls-none m-0 p-0">
-                <li class=""><a href="#">Profile</a></li>
+                <li class="">
+                  <router-link :to="{ name: 'profile' }">Profile</router-link>
+                </li>
                 <hr />
                 <li class="">
                   <button
@@ -44,7 +46,7 @@
             </div>
           </li>
           <li class="p-3"><a href="#"> Contact </a></li>
-          <li class="p-3" v-if="!$store.state.isAuthenticated">
+          <li class="p-3" v-if="!$store.state.token">
             <router-link :to="{ name: 'login' }"> Login </router-link>
           </li>
         </ul>
@@ -58,37 +60,34 @@
 </template>
 
 <script>
-import axios from "axios";
+var right = "-390px";
 
 export default {
   name: "Header",
   data() {
     return {
-      menuOpen: false,
-      menuRight: "-390px",
+      menuRight: right,
     };
+  },
+  watch: {
+    $route(to, from) {
+      if (to != from) {
+        this.menuRight = right;
+      }
+    },
   },
   mounted() {},
   methods: {
     menuHandler() {
-      this.menuOpen = !this.menuOpen;
-      if (this.menuOpen) {
-        this.menuRight = "-12px";
+      if (this.menuRight === right) {
+        this.menuRight = "-22px";
       } else {
-        this.menuRight = "-390px";
+        this.menuRight = right;
       }
     },
     logoutHandler() {
-      axios
-        .post("/api/logout")
-        .then((response) => {
-          console.log(response.data);
-          this.$store.state.isAuthenticated = false;
-          this.$store.state.authCheck = true;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      this.$store.state.token = "";
+      this.$store.commit("logginOut");
     },
   },
 };
@@ -129,6 +128,10 @@ nav a:hover,
   display: block;
 }
 
+.dbg {
+  background: var(--dbg);
+}
+
 @media (max-width: 1000px) {
   .main-menu {
     background: var(--dbg);
@@ -139,9 +142,9 @@ nav a:hover,
     width: 370px;
     height: 100vh;
     top: 0;
-    /* right: -370px; */
     text-align: center;
     transition: 0.5s ease-in-out;
+    /* overflow: hidden; */
   }
 }
 </style>

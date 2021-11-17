@@ -3,6 +3,8 @@ from users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    # token = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name',
@@ -18,3 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
+
+    # def get_token(self, obj):
+    #     token = RefreshToken.for_user(obj)
+    #     return str(token.access_token)

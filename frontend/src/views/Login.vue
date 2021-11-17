@@ -31,17 +31,16 @@
               />
             </div>
 
-            <div class="alert alert-danger my-0" v-if="false">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Hic,
-              cupiditate?
+            <div class="alert alert-danger my-0" v-if="errors.length">
+              <div v-for="error in errors" :key="error">{{ error }}</div>
             </div>
 
             <button type="submit" class="btn btn-primary w-100 my-3">
               Submit
             </button>
 
-            <div class="alert alert-success py-1" v-if="false">
-              Lorem ipsum dolor, sit amet
+            <div class="alert alert-success py-1" v-if="success">
+              {{ success }}
             </div>
 
             <p class="text-center mt-2">
@@ -62,31 +61,50 @@ export default {
     return {
       email: "",
       password: "",
+      errors: [],
+      success: "",
     };
   },
   mounted() {
-    if (this.$store.state.isAuthenticated) {
+    if (this.$store.state.token) {
       this.$router.push({ name: "home" });
     }
   },
   methods: {
     async loginHandler() {
-      const form_data = {
-        email: this.email,
-        password: this.password,
-      };
+      this.errors = [];
+      this.success = "";
 
-      await axios
-        .post("/api/login", form_data)
-        .then((response) => {
-          console.log(response.data);
-          this.$store.state.isAuthenticated = true;
-          this.$store.state.authCheck = true;
-          this.$router.push({ name: "home" });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      if (this.email === "") {
+        this.errors.push("Enter your email!");
+      } else if (this.password === "") {
+        this.errors.push("Enter your password!");
+      } else {
+        const form_data = {
+          email: this.email,
+          password: this.password,
+        };
+
+        await axios
+          .post("/api/login", form_data)
+          .then((response) => {
+            this.success = "Login successful!";
+            // console.log(response.data);
+            this.$store.commit("loggingIn", response.data);
+            this.$router.push({ name: "home" });
+          })
+          .catch((error) => {
+            if (error.response) {
+              for (const property in error.response.data) {
+                this.errors.push(`${error.response.data[property]}`);
+              }
+              console.log(JSON.stringify(error.response.data));
+            } else if (error.message) {
+              this.error.push("Something went wrong. Please try later!");
+              console.log(JSON.stringify(error));
+            }
+          });
+      }
     },
   },
 };

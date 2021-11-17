@@ -5,5 +5,5 @@ TO DO:
 
 
 ACCOUNTS:
-    01. admin@admin.com
+    01. admin@gmail.com
         admin

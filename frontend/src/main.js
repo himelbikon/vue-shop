@@ -9,4 +9,8 @@ import "@/assets/style.css";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 
+axios.defaults.headers.common = {
+  Authorization: "Bearer " + JSON.parse(localStorage.getItem("token")),
+};
+
 createApp(App).use(router).use(store).mount("#app");

@@ -8,7 +8,10 @@ from users.models import User
 
 class JWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
-        token = request.COOKIES.get('jwt')
+        # token = request.COOKIES.get('jwt')
+        token = request
+        printer(token)
+
         if not token:
             return None
 
@@ -16,7 +19,7 @@ class JWTAuthentication(BaseAuthentication):
             payload = jwt.decode(
                 token, settings.SECRET_KEY, algorithms=['HS256'])
         except Exception as e:
-            printer('Can not Authenticate:', e)
+            printer(e)
             raise AuthenticationFailed('unauthenticated!')
 
         user = User.objects.get(pk=payload['user_id'])
