@@ -7,44 +7,7 @@ from .hb_django import JWTAuthentication, generate_jwt, printer
 from users.models import User
 
 
-class Login(APIView):
-    def post(self, request):
-        email = request.data['email']
-        password = request.data['password']
-
-        user = User.objects.filter(email=email).first()
-
-        if user is None:
-            raise exceptions.AuthenticationFailed('User not found!')
-
-        if not user.check_password(password):
-            raise exceptions.AuthenticationFailed('Incorrect Password!')
-
-        token = generate_jwt(user.id)
-
-        response = Response()
-        # response.set_cookie(key='jwt', value=token, httponly=True)
-        response.data = {
-            'message': 'success',
-            'email': email,
-            'token': token
-        }
-
-        return response
-
-
-# class Logout(APIView):
-#     def post(self, request):
-#         response = Response()
-#         response.delete_cookie(key='jwt')
-#         response.data = {
-#             'message': 'success'
-#         }
-#         return response
-
-
 class Profile(APIView):
-    # authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

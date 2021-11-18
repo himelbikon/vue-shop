@@ -27,7 +27,7 @@ export default {
   methods: {
     getProfile() {
       axios
-        .get("/api/profile")
+        .get("/users/profile")
         .then((response) => {
           this.$store.state.user = response.data.email.split("@")[0];
         })

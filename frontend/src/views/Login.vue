@@ -86,10 +86,9 @@ export default {
         };
 
         await axios
-          .post("/api/login", form_data)
+          .post("/users/login", form_data)
           .then((response) => {
             this.success = "Login successful!";
-            // console.log(response.data);
             this.$store.commit("loggingIn", response.data);
             this.$router.push({ name: "home" });
           })
