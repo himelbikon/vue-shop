@@ -38,8 +38,19 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         super(Product, self).save(*args, **kwargs)
+        self.images()
+
+    def images(self):
         if self.image:
             self.resize(self.image, 500, 500)
+        if self.image2:
+            self.resize(self.image2, 500, 500)
+        if self.image3:
+            self.resize(self.image3, 500, 500)
+        if self.image4:
+            self.resize(self.image4, 500, 500)
+        if self.image5:
+            self.resize(self.image5, 500, 500)
 
     def resize(self, image, width, height):
         img = Image.open(image.path)

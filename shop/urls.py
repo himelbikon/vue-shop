@@ -5,7 +5,7 @@ from .views import *
 
 urlpatterns = [
     path('', LatestProducts.as_view()),
-    # path('profile', Profile.as_view()),
+    path('<int:pk>', SingleProduct.as_view()),
 
 ]
 

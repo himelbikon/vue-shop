@@ -17,6 +17,13 @@ export default {
   components: {
     Header,
   },
+  watch: {
+    $route(to, from) {
+      if (to != from) {
+        window.scroll(0, 0);
+      }
+    },
+  },
   mounted() {
     if (!this.$store.state.token) {
       console.log("check auth");
@@ -25,8 +32,8 @@ export default {
     }
   },
   methods: {
-    getProfile() {
-      axios
+    async getProfile() {
+      await axios
         .get("/users/profile")
         .then((response) => {
           this.$store.state.user = response.data.email.split("@")[0];

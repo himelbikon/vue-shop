@@ -5,6 +5,8 @@ import Home from "@/views/Home";
 import About from "@/views/About";
 import Login from "@/views/Login";
 import Profile from "@/views/Profile";
+import SingleProduct from "@/views/SingleProduct";
+import Cart from "@/views/Cart";
 
 const routes = [
   {
@@ -29,6 +31,16 @@ const routes = [
     meta: {
       requireLogin: true,
     },
+  },
+  {
+    path: "/shop/:id/",
+    name: "singleProduct",
+    component: SingleProduct,
+  },
+  {
+    path: "/cart",
+    name: "cart",
+    component: Cart,
   },
 ];
 

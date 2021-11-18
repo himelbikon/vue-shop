@@ -30,7 +30,7 @@
             User
             <div class="sub-menu-1 text-center my-2 px-2 py-3 shadow">
               <ul class="ls-none m-0 p-0">
-                <li class="">
+                <li>
                   <router-link :to="{ name: 'profile' }">Profile</router-link>
                 </li>
                 <hr />
@@ -48,6 +48,12 @@
           <li class="p-3"><a href="#"> Contact </a></li>
           <li class="p-3" v-if="!$store.state.token">
             <router-link :to="{ name: 'login' }"> Login </router-link>
+          </li>
+
+          <li class="p-3">
+            <router-link :to="{ name: 'cart' }">
+              <i class="fas fa-shopping-cart"></i> <sup>({{ cartLen }})</sup>
+            </router-link>
           </li>
         </ul>
       </div>
@@ -88,6 +94,11 @@ export default {
     logoutHandler() {
       this.$store.state.token = "";
       this.$store.commit("logginOut");
+    },
+  },
+  computed: {
+    cartLen() {
+      return this.$store.state.cartItems.length;
     },
   },
 };
