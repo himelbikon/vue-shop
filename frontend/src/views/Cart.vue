@@ -11,6 +11,7 @@
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">Full Price</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -34,6 +35,14 @@
               </button>
             </td>
             <td>{{ item.quantity * item.product.price }}</td>
+            <td>
+              <button
+                class="btn btn-danger btn-sm"
+                @click="deleteFromCart(item.product.id)"
+              >
+                x
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -51,6 +60,9 @@ export default {
     },
     decreaseCart(id) {
       this.$store.commit("decreaseCart", id);
+    },
+    deleteFromCart(id) {
+      this.$store.commit("deleteFromCart", id);
     },
   },
 };

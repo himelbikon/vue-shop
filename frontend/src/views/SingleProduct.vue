@@ -71,6 +71,10 @@
 
           <div class="my-5">Price: ${{ product.price }}</div>
 
+          <div v-if="isIncart">
+            This product is already in cart! ({{ isIncart[0].quantity }})
+          </div>
+
           <div class="input-group my-5 w-75">
             <input
               type="number"
@@ -87,6 +91,12 @@
             >
               Add To Cart
             </button>
+            <div v-if="isIncart">
+              <small
+                >You can increase, decrease or delete this product from cart
+                page.</small
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -132,6 +142,19 @@ export default {
     addTocart() {
       const obj = { product: this.product, quantity: this.quantity };
       this.$store.commit("addToCart", obj);
+    },
+  },
+  computed: {
+    isIncart() {
+      const exists = this.$store.state.cart.filter((i) => {
+        return i.product.id === this.product.id;
+      });
+
+      if (exists.length) {
+        return exists;
+      } else {
+        return false;
+      }
     },
   },
 };

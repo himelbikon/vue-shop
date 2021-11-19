@@ -64,6 +64,15 @@ export default createStore({
       // save to localStorage
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
+    deleteFromCart(state, id) {
+      for (let i = 0; i < state.cart.length; i++) {
+        if (state.cart[i].product.id === id) {
+          state.cart.splice(i, 1);
+        }
+      }
+      // save to localStorage
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
   },
   actions: {},
   modules: {},
