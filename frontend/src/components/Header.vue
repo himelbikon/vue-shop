@@ -52,7 +52,7 @@
 
           <li class="p-3">
             <router-link :to="{ name: 'cart' }">
-              <i class="fas fa-shopping-cart"></i> <sup>({{ cartLen }})</sup>
+              <i class="fas fa-shopping-cart"></i> ({{ cartLen }})
             </router-link>
           </li>
         </ul>
@@ -98,7 +98,7 @@ export default {
   },
   computed: {
     cartLen() {
-      return this.$store.state.cartItems.length;
+      return this.$store.state.cart.length;
     },
   },
 };
