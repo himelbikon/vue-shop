@@ -2,8 +2,6 @@ from django.db import models
 from PIL import Image
 from users.models import User
 
-# URL = 'http://127.0.0.1:8000'
-
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -72,7 +70,3 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     text = models.TextField()
-
-
-# def save(self, *args, **kwargs):
-    #     super(Product, self).save(*args, **kwargs)

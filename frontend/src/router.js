@@ -7,6 +7,7 @@ import Login from "@/views/Login";
 import Profile from "@/views/Profile";
 import SingleProduct from "@/views/SingleProduct";
 import Cart from "@/views/Cart";
+import Checkout from "@/views/Checkout";
 
 const routes = [
   {
@@ -41,6 +42,14 @@ const routes = [
     path: "/cart",
     name: "cart",
     component: Cart,
+  },
+  {
+    path: "/checkout",
+    name: "checkout",
+    component: Checkout,
+    meta: {
+      requireLogin: true,
+    },
   },
 ];
 

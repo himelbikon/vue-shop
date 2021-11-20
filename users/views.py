@@ -1,9 +1,8 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import exceptions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
-from .hb_django import JWTAuthentication, generate_jwt, printer
+from .hb_django import printer
 from users.models import User
 
 
