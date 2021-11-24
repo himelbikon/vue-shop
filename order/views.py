@@ -14,8 +14,10 @@ class OrdersView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
-        # user = request.user
-        serializer = OrderSerializer(data=request.data)
+        data = request.data
+        data['user'] = request.user.id
+        data['paid_amount'] = 34.56
+        serializer = OrderSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)

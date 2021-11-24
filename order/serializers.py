@@ -26,10 +26,9 @@ class OrderSerializer(serializers.ModelSerializer):
             'place',
             'created_at',
             'paid_amount',
-            'unique_id',
+            'stripe_token',
             'items'
         ]
-        # read_only_fields = ('user',)
 
     def create(self, validated_data):
         items = validated_data.pop('items')

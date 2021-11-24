@@ -107,11 +107,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "checkout",
   data() {
     return {
       cart: [],
+      items: [],
       first_name: "",
       last_name: "",
       email: "",
@@ -119,11 +122,14 @@ export default {
       address: "",
       zipcode: "",
       place: "",
+      token: "sgfbdfgdf",
       errors: [],
     };
   },
   mounted() {
     this.cart = this.$store.state.cart;
+
+    this.collectItems();
   },
   computed: {
     totalCartPrice() {
@@ -145,9 +151,37 @@ export default {
         address: this.address,
         zipcode: this.zipcode,
         place: this.place,
+        stripe_token: this.token,
+        items: this.items,
       };
 
-      console.log(data);
+      axios
+        .post("orders/", data)
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          if (error.response) {
+            for (const property in error.response.data) {
+              this.errors.push(`${error.response.data[property]}`);
+            }
+            console.log(JSON.stringify(error.response.data));
+          } else if (error.message) {
+            this.error.push("Something went wrong. Please try later!");
+            console.log(JSON.stringify(error));
+          }
+        });
+    },
+    collectItems() {
+      this.cart.map((i) => {
+        const item = {
+          product: i.product.id,
+          price: i.quantity * i.product.price,
+          quantity: i.quantity,
+        };
+
+        this.items.push(item);
+      });
     },
   },
 };

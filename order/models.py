@@ -18,9 +18,9 @@ class Order(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     paid_amount = models.DecimalField(
-        max_digits=8, decimal_places=2, blank=True, null=True)
+        max_digits=8, decimal_places=2, null=True)
 
-    unique_id = models.CharField(max_length=100)
+    stripe_token = models.CharField(max_length=200)
 
     class Meta:
         ordering = ['-id']
