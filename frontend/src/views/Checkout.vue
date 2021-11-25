@@ -136,8 +136,8 @@ export default {
   mounted() {
     this.cart = this.$store.state.cart;
     this.totalPrice = this.priceCounter();
-    this.token = this.generateToken();
 
+    this.generateToken();
     this.collectItems();
     this.mountPaypal();
   },
