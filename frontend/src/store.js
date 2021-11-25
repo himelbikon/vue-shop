@@ -73,6 +73,10 @@ export default createStore({
       // save to localStorage
       localStorage.setItem("cart", JSON.stringify(state.cart));
     },
+    clearCart(state) {
+      state.cart = [];
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
   },
   actions: {},
   modules: {},

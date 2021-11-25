@@ -20,7 +20,7 @@ class Order(models.Model):
     paid_amount = models.DecimalField(
         max_digits=8, decimal_places=2, null=True)
 
-    stripe_token = models.CharField(max_length=200)
+    token = models.CharField(max_length=200)
 
     class Meta:
         ordering = ['-id']
@@ -41,4 +41,4 @@ class OrderItem(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f'{self.id}'
+        return f'{self.id}: {self.product.name}'

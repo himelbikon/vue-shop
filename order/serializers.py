@@ -26,7 +26,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'place',
             'created_at',
             'paid_amount',
-            'stripe_token',
+            'token',
             'items'
         ]
 

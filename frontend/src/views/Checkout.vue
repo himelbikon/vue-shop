@@ -66,13 +66,17 @@
               />
             </div>
 
-            <button
+            <hr />
+            <div ref="paypal"></div>
+            <hr />
+
+            <!-- <button
               type="button"
               class="btn btn-df text-white"
               @click="orderHandler()"
             >
               Submit
-            </button>
+            </button> -->
           </form>
         </div>
 
@@ -113,6 +117,8 @@ export default {
   name: "checkout",
   data() {
     return {
+      loaded: false,
+      paidFor: false,
       cart: [],
       items: [],
       first_name: "",
@@ -122,19 +128,23 @@ export default {
       address: "",
       zipcode: "",
       place: "",
-      token: "sgfbdfgdf",
+      token: "Ecommerce_",
       errors: [],
+      totalPrice: 0,
     };
   },
   mounted() {
     this.cart = this.$store.state.cart;
+    this.totalPrice = this.priceCounter();
+    this.token = this.generateToken();
 
     this.collectItems();
+    this.mountPaypal();
   },
   computed: {
     totalCartPrice() {
       let price = 0;
-      this.$store.state.cart.map((i) => {
+      this.cart.map((i) => {
         price += i.product.price * i.quantity;
       });
 
@@ -142,6 +152,44 @@ export default {
     },
   },
   methods: {
+    mountPaypal: function () {
+      const script = document.createElement("script");
+      script.src =
+        "https://www.paypal.com/sdk/js?client-id=AbzYFUyRQHaRRb0NQ6vsehobiGBGwcFjcJBlMIxrfbzy_mFH4nklge6-raop0Nk9YW2Ryulu9Z0yPI_z";
+      // AbzYFUyRQHaRRb0NQ6vsehobiGBGwcFjcJBlMIxrfbzy_mFH4nklge6-raop0Nk9YW2Ryulu9Z0yPI_z
+      script.addEventListener("load", this.setLoaded);
+      document.body.appendChild(script);
+    },
+    setLoaded: function () {
+      this.loaded = true;
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: this.token,
+                  amount: {
+                    currency_code: "USD",
+                    value: this.totalPrice,
+                  },
+                },
+              ],
+            });
+          },
+          onApprove: async (data, actions) => {
+            const order = await actions.order.capture();
+            this.data;
+            this.paidFor = true;
+            console.log(order);
+            this.orderHandler();
+          },
+          onError: (err) => {
+            console.log(err);
+          },
+        })
+        .render(this.$refs.paypal);
+    },
     orderHandler() {
       const data = {
         first_name: this.first_name,
@@ -151,14 +199,17 @@ export default {
         address: this.address,
         zipcode: this.zipcode,
         place: this.place,
-        stripe_token: this.token,
+        token: this.token,
+        paid_amount: this.totalPrice,
         items: this.items,
       };
 
       axios
         .post("orders/", data)
-        .then((response) => {
-          console.log(response.data);
+        .then(() => {
+          // console.log(response.data);
+          this.$router.push({ name: "home" });
+          this.$store.commit("clearCart");
         })
         .catch((error) => {
           if (error.response) {
@@ -176,12 +227,34 @@ export default {
       this.cart.map((i) => {
         const item = {
           product: i.product.id,
-          price: i.quantity * i.product.price,
+          price: i.product.price,
           quantity: i.quantity,
         };
 
         this.items.push(item);
       });
+    },
+    priceCounter() {
+      let price = 0;
+      this.cart.map((i) => {
+        price += i.product.price * i.quantity;
+      });
+
+      return price;
+    },
+    generateToken() {
+      const string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let token = "";
+
+      for (let i = 0; i < 20; i++) {
+        token += string[this.random(0, string.length)];
+      }
+
+      this.token += token;
+      // console.log(this.token);
+    },
+    random(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
     },
   },
 };
