@@ -4,7 +4,7 @@ export default createStore({
   state: {
     token: "",
     user: "",
-    url: "himelbikon.pythonanywhere.com",
+    url: "",
     cart: [],
   },
   mutations: {

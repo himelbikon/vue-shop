@@ -205,7 +205,7 @@ export default {
       };
 
       axios
-        .post("orders/", data)
+        .post("/api/orders/", data)
         .then(() => {
           // console.log(response.data);
           this.$router.push({ name: "home" });

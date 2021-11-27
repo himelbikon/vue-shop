@@ -34,7 +34,7 @@ export default {
   methods: {
     async getProfile() {
       await axios
-        .get("/users/profile")
+        .get("/api/users/profile/")
         .then((response) => {
           this.$store.state.user = response.data.email.split("@")[0];
         })

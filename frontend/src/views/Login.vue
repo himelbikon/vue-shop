@@ -86,7 +86,7 @@ export default {
         };
 
         await axios
-          .post("/users/login", form_data)
+          .post("/api/users/login/", form_data)
           .then((response) => {
             this.success = "Login successful!";
             this.$store.commit("loggingIn", response.data);

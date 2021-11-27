@@ -126,7 +126,7 @@ export default {
   methods: {
     async getProduct() {
       await axios
-        .get(`/shop/${this.$route.params.id}`)
+        .get(`/api/shop/${this.$route.params.id}/`)
         .then((response) => {
           this.product = response.data;
 

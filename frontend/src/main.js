@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 import "@/assets/style.css";
 
-axios.defaults.baseURL = "himelbikon.pythonanywhere.com/api";
+// axios.defaults.baseURL = "himelbikon.pythonanywhere.com/api";
 
 if (localStorage.getItem("token")) {
   axios.defaults.headers.common = {

@@ -36,7 +36,7 @@ export default {
   methods: {
     async getProducts() {
       await axios
-        .get("/shop")
+        .get("/api/shop/")
         .then((response) => {
           this.latestProducts = response.data;
         })

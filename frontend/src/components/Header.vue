@@ -3,10 +3,7 @@
     <nav class="dbg text-white d-flex justify-content-between py-2 px-3">
       <div class="d-inline">
         <router-link :to="{ name: 'home' }"
-          ><img
-            src="https://himelbikon.pythonanywhere.com/static/images/logo1.png"
-            alt=""
-          />
+          ><img src="../assets/logo.png" alt="" />
         </router-link>
       </div>
 
