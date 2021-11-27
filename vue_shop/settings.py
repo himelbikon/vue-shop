@@ -108,7 +108,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'himelbikon$vueshop',
         'USER': 'himelbikon',
-        'PASSWORD': 'vueshop',
+        'PASSWORD': 'aminew936#',
         'HOST': 'himelbikon.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'OPTIONS': {
@@ -210,4 +210,4 @@ SIMPLE_JWT = {
 try:
     from .local_settings import *
 except:
-    print('You are in local server!')
+    print('You are on Production!')
