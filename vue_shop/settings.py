@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fyin732f%*6osr7&b=2xr@_!ml2que=^$s@umuwkbttisu+qtm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['himelbikon.pythonanywhere.com']
 
 
 # Application definition
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080', ]
+CORS_ALLOWED_ORIGINS = ['http://localhost:8080',
+                        'himelbikon.pythonanywhere.com']
 
 # CORS_ALLOWED_HEADERS = list(defaults) + [
 #     'contenttype',
@@ -72,7 +73,9 @@ ROOT_URLCONF = 'vue_shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.joinpath('templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -97,6 +100,20 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'himelbikon$bikonbase',
+#         'USER': 'himelbikon',
+#         'PASSWORD': 'aminew321',
+#         'HOST': 'himelbikon.mysql.pythonanywhere-services.com',
+#         'PORT': '3306',
+#         'OPTIONS': {
+#             'sql_mode': 'traditional',
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -136,6 +153,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR.joinpath('static')
+]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
@@ -184,3 +204,8 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
+
+try:
+    from .local_settings import *
+except:
+    print('You are in local server!')
