@@ -50,8 +50,10 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8080',
-                        'himelbikon.pythonanywhere.com']
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8080',
+    'https://himelbikon.pythonanywhere.com'
+]
 
 # CORS_ALLOWED_HEADERS = list(defaults) + [
 #     'contenttype',
@@ -104,9 +106,9 @@ WSGI_APPLICATION = 'vue_shop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'himelbikon$vue-shop',
+        'NAME': 'himelbikon$vueshop',
         'USER': 'himelbikon',
-        'PASSWORD': 'vue-shop',
+        'PASSWORD': 'vueshop',
         'HOST': 'himelbikon.mysql.pythonanywhere-services.com',
         'PORT': '3306',
         'OPTIONS': {
